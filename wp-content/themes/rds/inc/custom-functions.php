@@ -820,73 +820,72 @@ add_filter("pre_get_posts", "custom_filter_search");
 // Function to fetch environment from WP Engine API
 function fetch_environement_from_wpengine_api() {
 
-   //  // $transient_name = 'wpengine_environment_fetched';
+    // $transient_name = 'wpengine_environment_fetched';
 
-   //  // // Check if the transient is set
-   //  // if (get_transient($transient_name)) {
-   //  // 	// echo  "Function already executed.";
-   //  //     return; // If transient is set, exit the function
-   //  // }
+    // // Check if the transient is set
+    // if (get_transient($transient_name)) {
+    // 	// echo  "Function already executed.";
+    //     return; // If transient is set, exit the function
+    // }
 
-   //  // echo "Executing fetch_environment_from_wpengine_api";
+    // echo "Executing fetch_environment_from_wpengine_api";
 
-   // // $site_identifier = PWP_NAME; // Assuming PWP_NAME is defined elsewhere
-   // $site_identifier = defined('PWP_NAME') ? PWP_NAME : null;
-   //  if (!$site_identifier) {
-   //      return; // Exit if PWP_NAME is not defined
-   //  } 
-   //  $url = 'http://34.239.11.117/lerva/api/siteinfo/' . $site_identifier; // API endpoint URL
+   // $site_identifier = PWP_NAME; // Assuming PWP_NAME is defined elsewhere
+   $site_identifier = defined('PWP_NAME') ? PWP_NAME : null;
+    if (!$site_identifier) {
+        return; // Exit if PWP_NAME is not defined
+    } 
+    $url = 'http://34.239.11.117/lerva/api/siteinfo/' . $site_identifier; // API endpoint URL
 
-   //  // Arguments for wp_remote_get request
-   //  $args = array(
-   //      'headers' => array(
-   //          'Authorization' => 'Bearer ZUFbUW1sX05lFJ7VWey6eT67HZR4hpflTSIjwrqSF7TTKxzcroWSjjfhsmiA7PVB'
-   //      ),
-   //      'timeout' => 15,
-   //      'redirection' => 10,
-   //      'blocking' => true,
-   //      'httpversion' => '1.1',
-   //      'sslverify' => false // Set to true if SSL verification is needed
-   //  );
+    // Arguments for wp_remote_get request
+    $args = array(
+        'headers' => array(
+            'Authorization' => 'Bearer ZUFbUW1sX05lFJ7VWey6eT67HZR4hpflTSIjwrqSF7TTKxzcroWSjjfhsmiA7PVB'
+        ),
+        'timeout' => 15,
+        'redirection' => 10,
+        'blocking' => true,
+        'httpversion' => '1.1',
+        'sslverify' => false // Set to true if SSL verification is needed
+    );
 
-   //  // Perform the GET request
-   //  $response = wp_remote_get($url, $args);
+    // Perform the GET request
+    $response = wp_remote_get($url, $args);
 
-   //  // Check for errors in the response
-   //  // if (is_wp_error($response)) {
-   //  //     $error_message = $response->get_error_message();
-   //  //     // echo "Something went wrong: $error_message";
-   //  // } else {
-   //  //     // Retrieve and decode response body
-   //  //     $body = wp_remote_retrieve_body($response);
-   //  //     $data = json_decode($body, true);
+    // Check for errors in the response
+    // if (is_wp_error($response)) {
+    //     $error_message = $response->get_error_message();
+    //     // echo "Something went wrong: $error_message";
+    // } else {
+    //     // Retrieve and decode response body
+    //     $body = wp_remote_retrieve_body($response);
+    //     $data = json_decode($body, true);
 
-   //  //     // Check if 'environement' (sic) is set in the API response
-   //  //     if (isset($data['environment'])) {
-   //  //         $environement = $data['environment'];
-   //  //         // If environment is 'staging' or 'development', customize notification email
-   //  //         if ($environement === 'staging' || $environement === 'development') {
-   //  //             add_filter('gform_notification', 'customize_notification_email_for_all_forms', 10, 3);
-   //  //         }	
-   //  //     }
-   //  // }
-// 	if (is_wp_error($response)) {
-   //      error_log("API Request Error: " . $response->get_error_message());
-   //      return;
-   //  }
+    //     // Check if 'environement' (sic) is set in the API response
+    //     if (isset($data['environment'])) {
+    //         $environement = $data['environment'];
+    //         // If environment is 'staging' or 'development', customize notification email
+    //         if ($environement === 'staging' || $environement === 'development') {
+    //             add_filter('gform_notification', 'customize_notification_email_for_all_forms', 10, 3);
+    //         }	
+    //     }
+    // }
+	if (is_wp_error($response)) {
+        error_log("API Request Error: " . $response->get_error_message());
+        return;
+    }
 
-   //  $body = wp_remote_retrieve_body($response);
-   //  $data = json_decode($body, true);
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
 
-   //  if (isset($data['environment'])) {
-   //      $environment = $data['environment'];
-   //      if ($environment === 'staging' || $environment === 'development') {
-   //          add_filter('gform_notification', 'customize_notification_email_for_all_forms', 10, 3);
-   //      }
-   //  }
-   //  // $has_run_once = true; // Mark that the function has run once
-   //  // set_transient($transient_name, true, 3600);
-	return '';
+    if (isset($data['environment'])) {
+        $environment = $data['environment'];
+        if ($environment === 'staging' || $environment === 'development') {
+            add_filter('gform_notification', 'customize_notification_email_for_all_forms', 10, 3);
+        }
+    }
+    // $has_run_once = true; // Mark that the function has run once
+    // set_transient($transient_name, true, 3600);
 }
 
 // Hook to run fetch_environement_from_wpengine_api function on init

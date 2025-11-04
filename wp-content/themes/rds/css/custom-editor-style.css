@@ -42649,7 +42649,10 @@ header .elementor-element-populated {
   font-family: "Open Sans", sans-serif !important;
 }
 
-
+@media (max-width: 991px) {
+  body .uwy .userway_buttons_wrapper {
+    bottom: 56px !important;
+  }
 }
 .request_form {
   z-index: 9999999999 !important;

@@ -2547,8 +2547,14 @@ header .elementor-element-populated {
 	font-family: $alternate_font_family_1!important;
 }  
 
-
-
+@media(max-width:991px){
+	body .uwy .userway_buttons_wrapper{
+		bottom:56px !important;
+	}
+}
+	// body .uwy{
+	// 	z-index:9999 !important;
+	// }
 
 	.request_form {
 		z-index: 9999999999!important; 
@@ -2560,3 +2566,4 @@ header .elementor-element-populated {
 	
 		}
 	}
+	
